@@ -71,7 +71,7 @@ $html = '
 
 // Fetch and insert rows
 foreach ($ids as $id_pri) {
-    $stmt = $bdd->prepare("SELECT e.nom, e.prenom, p.name AS poste, d.name AS direction, pr.period, pr.respect_objectif, pr.qualite_travail, pr.organisation, pr.disponibilite, pr.total 
+    $stmt = $bdd->prepare("SELECT e.nom, e.prenom, p.name AS poste, d.name AS direction , d.id_dir as dir, pr.period, pr.respect_objectif, pr.qualite_travail, pr.organisation, pr.disponibilite, pr.total 
         FROM pri pr 
         JOIN employee e ON pr.id_employee = e.employee_id 
         JOIN poste p ON e.poste = p.id_poste 
@@ -104,6 +104,7 @@ foreach ($ids as $id_pri) {
         <td>' . htmlspecialchars($data['poste']) . '</td>
         <td><b>' . $data['total'] . '</b></td>
     </tr>';
+
 }
 
 $html .= '</tbody></table>';
@@ -114,6 +115,31 @@ $pdf->writeHTML($html, true, false, true, false, '');
 // Footer signature
 $pdf->Ln(15);
 $pdf->Cell(0,10, 'Signature du Responsable Hiérarchique', 0, 1, 'R');
+
+    
+$signaturePath = '../images/cachet_rond_daf.png';
+$x = 140; // distance from left
+$y = 70; // vertical position
+$width = 45;
+
+if (!file_exists($signaturePath)) {
+    die("Fichier image introuvable : $signaturePath");
+}
+$pdf->Image($signaturePath, $x, $y, $width);
+
+if($data['dir']==3){
+// === Deuxième image (signature DRSIG) ===
+$signaturePath2 = '../images/Signature_DRSIG.png';
+$x2 = 130;
+$y2 = 235;
+$width2 = 65;
+
+if (file_exists($signaturePath2)) {
+    $pdf->Image($signaturePath2, $x2, $y2, $width2);
+} else {
+    error_log("Image non trouvée : $signaturePath2");
+}
+}
 
 // Output PDF
 $pdf->Output("PRI_RECAP.pdf", 'I');

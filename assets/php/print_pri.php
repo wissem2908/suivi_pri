@@ -17,7 +17,7 @@ try {
 
 $stmt = $bdd->prepare("
     SELECT 
-        e.nom, e.prenom, p.name AS poste, d.name AS direction,
+        e.nom, e.prenom, p.name AS poste, d.name AS direction, d.id_dir as dir,
         pr.period, pr.respect_objectif, pr.qualite_travail, 
         pr.organisation, pr.disponibilite, pr.total
     FROM pri pr
@@ -202,8 +202,42 @@ $html = '
 ';
 $pdf->writeHTML($html, true, false, true, false, '');
 
+
+
+
+
+
+
 // Signature
 $pdf->Ln(15);
 $pdf->Cell(0, 10, 'Signature du Responsable Hiérarchique', 0, 1, 'R');
+
+// === Première image (cachet rond DAF) ===
+$signaturePath1 = '../images/cachet_rond_daf.png';
+$x1 = 140;
+$y1 = 70;
+$width1 = 45;
+
+if (file_exists($signaturePath1)) {
+    $pdf->Image($signaturePath1, $x1, $y1, $width1);
+} else {
+    error_log("Image non trouvée : $signaturePath1");
+}
+
+
+if($data['dir']==3){
+// === Deuxième image (signature DRSIG) ===
+$signaturePath2 = '../images/Signature_DRSIG.png';
+$x2 = 130;
+$y2 = 235;
+$width2 = 65;
+
+if (file_exists($signaturePath2)) {
+    $pdf->Image($signaturePath2, $x2, $y2, $width2);
+} else {
+    error_log("Image non trouvée : $signaturePath2");
+}
+}
+
 
 $pdf->Output("PRI_{$data['nom']}_{$data['prenom']}.pdf", 'I');

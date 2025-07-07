@@ -59,8 +59,8 @@
     color: #fff;
 }
 .btn.btn-success {
-    border: 1px solid #68b0ab !important;
-    background-color: #68b0ab !important;
+    /* border: 1px solid #68b0ab !important;
+    background-color: #68b0ab !important; */
 }
 .btn-danger {
     background: #e15526;
@@ -125,6 +125,10 @@
     border: 1px solid #68b0ab !important;
 } */
 
+.btn.btn-success:hover,.btn.btn-success:active {
+    border: 1px solid #FF7043 !important;
+    background-color: #FF7043 !important;
+}
 /* Cards and Panels */
 .glass-card {
     background: linear-gradient(135deg, rgb(168 255 211 / 20%), rgb(0 33 102 / 35%));
@@ -431,7 +435,7 @@
     border-radius: 30px;
     padding: 18px 0;
     font-size: 1.15rem;
-    box-shadow: 0 2px 12px rgba(255,115,0,0.10);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset !important;
     transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
     width: 100%;
     max-width: 100%;
